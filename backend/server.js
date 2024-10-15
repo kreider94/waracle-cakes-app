@@ -1,18 +1,12 @@
 require('dotenv').config();
-const mongoose = require('mongoose');
+const connectDB = require('./utils/db');
 const express = require('express');
 const app = express();
 const cakeRoutes = require('./routes/cakeRoutes');
 
 const uri = process.env.MONGO_URI;
 
-mongoose.connect(uri)
-  .then(() => {
-    console.log('MongoDB connection successful!');
-  })
-  .catch((err) => {
-    console.error('MongoDB connection error:', err);
-  });
+connectDB();
 
 app.use(express.json());
 
