@@ -1,12 +1,10 @@
-// cakeController.js
-
-const Cake = require("../models/cakeModel"); // Assuming you have a Mongoose model for Cake
+const Cake = require("../models/cakeModel");
 
 // Get all cakes
 exports.getCakes = async (req, res) => {
   try {
-    const cakes = await Cake.find(); // Fetch all cakes from the database
-    res.status(200).json(cakes); // Return the list of cakes in JSON format
+    const cakes = await Cake.find({});
+    res.status(200).json(cakes);
   } catch (error) {
     console.error("Error fetching cakes:", error.message);
     res
@@ -18,11 +16,11 @@ exports.getCakes = async (req, res) => {
 // Get a single cake by ID
 exports.getCakeById = async (req, res) => {
   try {
-    const cake = await Cake.findById(req.params.id); // Find the cake by its ID
+    const cake = await Cake.findById(req.params.id);
     if (!cake) {
       return res.status(404).json({ message: "Cake not found." });
     }
-    res.status(200).json(cake); // Return the cake details
+    res.status(200).json(cake);
   } catch (error) {
     console.error("Error fetching cake:", error.message);
     res.status(500).json({ message: "Server error. Could not retrieve cake." });
@@ -33,7 +31,7 @@ exports.getCakeById = async (req, res) => {
 exports.addCake = async (req, res) => {
   const { name, comment, imageUrl, yumFactor } = req.body;
 
-  // Basic validation
+  // Basic validation - fix later
   if (!name || !comment || !imageUrl || !yumFactor) {
     return res.status(400).json({ message: "All fields are required." });
   }
@@ -45,7 +43,6 @@ exports.addCake = async (req, res) => {
       .json({ message: "Yum factor must be between 1 and 5." });
   }
 
-  // Ensure name uniqueness
   const existingCake = await Cake.findOne({ name });
   if (existingCake) {
     return res
@@ -55,8 +52,8 @@ exports.addCake = async (req, res) => {
 
   try {
     const newCake = new Cake({ name, comment, imageUrl, yumFactor });
-    await newCake.save(); // Save the new cake to the database
-    res.status(201).json(newCake); // Return the newly created cake
+    await newCake.save();
+    res.status(201).json(newCake);
   } catch (error) {
     console.error("Error adding cake:", error.message);
     res.status(500).json({ message: "Server error. Could not add cake." });
@@ -74,14 +71,14 @@ exports.updateCake = async (req, res) => {
       return res.status(404).json({ message: "Cake not found." });
     }
 
-    // Update the cake fields
+    // Update cake fields
     cake.name = name || cake.name;
     cake.comment = comment || cake.comment;
     cake.imageUrl = imageUrl || cake.imageUrl;
     cake.yumFactor = yumFactor || cake.yumFactor;
 
-    await cake.save(); // Save the updated cake
-    res.status(200).json(cake); // Return the updated cake
+    await cake.save();
+    res.status(200).json(cake); // Return updated cake
   } catch (error) {
     console.error("Error updating cake:", error.message);
     res.status(500).json({ message: "Server error. Could not update cake." });
@@ -97,7 +94,7 @@ exports.deleteCake = async (req, res) => {
       return res.status(404).json({ message: "Cake not found." });
     }
 
-    await cake.remove(); // Remove the cake from the database
+    await cake.remove();
     res.status(200).json({ message: "Cake successfully deleted." });
   } catch (error) {
     console.error("Error deleting cake:", error.message);

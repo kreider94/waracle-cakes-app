@@ -1,16 +1,25 @@
-require('dotenv').config();
-const connectDB = require('./utils/db');
 const express = require('express');
-const app = express();
+const dotenv = require('dotenv');
+const mongoose = require('mongoose');
+const cors = require('cors'); 
 const cakeRoutes = require('./routes/cakeRoutes');
+const connectDB = require('./utils/db');
 
-const uri = process.env.MONGO_URI;
+dotenv.config();
 
-connectDB();
+const app = express();
 
 app.use(express.json());
 
+app.use(cors({ origin: 'http://localhost:3000' }));
+
+connectDB();
+
 app.use('/api/cakes', cakeRoutes);
+
+app.get('/', (req, res) => {
+  res.send('API is running...');
+});
 
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => {

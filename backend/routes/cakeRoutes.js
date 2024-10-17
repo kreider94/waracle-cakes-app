@@ -1,5 +1,5 @@
 const express = require("express");
-const Cake = require("../models/Cake");
+const { Cake } = require("../models/cakeModel");
 
 const router = express.Router();
 
