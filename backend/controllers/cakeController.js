@@ -3,7 +3,7 @@ const Cake = require("../models/cakeModel");
 // Get all cakes
 exports.getCakes = async (req, res) => {
   try {
-    const cakes = await Cake.find({});
+    const cakes = await Cake.find();
     res.status(200).json(cakes);
   } catch (error) {
     console.error("Error fetching cakes:", error.message);
