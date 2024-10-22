@@ -18,7 +18,7 @@ function Header() {
     <AppBar position="static" className={classes.appBar}>
       <Toolbar>
         <Typography variant="h6" className={classes.title}>
-          Cake App
+          Waracle Cakes
         </Typography>
       </Toolbar>
     </AppBar>

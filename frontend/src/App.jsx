@@ -1,7 +1,6 @@
 import React from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import CakeList from './components/CakeList';
-import CakeForm from './components/CakeForm';
 import Header from './components/Header';
 
 function App() {
@@ -10,7 +9,6 @@ function App() {
       <CssBaseline />
       <Header />
       <CakeList />
-      <CakeForm />
     </>
   );
 }

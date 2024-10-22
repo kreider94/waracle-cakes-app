@@ -1,7 +1,8 @@
+const mongoose = require("mongoose");
 const Cake = require("../models/cakeModel");
 
 // Get all cakes
-exports.getCakes = async (req, res) => {
+const getCakes = async (req, res) => {
   try {
     const cakes = await Cake.find();
     res.status(200).json(cakes);
@@ -14,21 +15,27 @@ exports.getCakes = async (req, res) => {
 };
 
 // Get a single cake by ID
-exports.getCakeById = async (req, res) => {
+const getCakeById = async (req, res) => {
+  const cakeId = req.params.id;
+
+  if (!mongoose.Types.ObjectId.isValid(cakeId)) {
+    return res.status(400).send('Invalid ID format');
+  }
+
   try {
-    const cake = await Cake.findById(req.params.id);
+    const cake = await Cake.findById(cakeId);
     if (!cake) {
-      return res.status(404).json({ message: "Cake not found." });
+      return res.status(404).send('Cake not found');
     }
     res.status(200).json(cake);
   } catch (error) {
     console.error("Error fetching cake:", error.message);
     res.status(500).json({ message: "Server error. Could not retrieve cake." });
   }
-};
+}
 
 // Add a new cake
-exports.addCake = async (req, res) => {
+const addCake = async (req, res) => {
   const { name, comment, imageUrl, yumFactor } = req.body;
 
   // Basic validation - fix later
@@ -61,7 +68,7 @@ exports.addCake = async (req, res) => {
 };
 
 // Update a cake by ID
-exports.updateCake = async (req, res) => {
+const updateCake = async (req, res) => {
   const { name, comment, imageUrl, yumFactor } = req.body;
 
   try {
@@ -78,7 +85,7 @@ exports.updateCake = async (req, res) => {
     cake.yumFactor = yumFactor || cake.yumFactor;
 
     await cake.save();
-    res.status(200).json(cake); // Return updated cake
+    res.status(200).json(cake);
   } catch (error) {
     console.error("Error updating cake:", error.message);
     res.status(500).json({ message: "Server error. Could not update cake." });
@@ -86,18 +93,29 @@ exports.updateCake = async (req, res) => {
 };
 
 // Delete a cake by ID
-exports.deleteCake = async (req, res) => {
+const deleteCake = async (req, res) => {
+  const cakeId = req.params.id;
+
+  if (!mongoose.Types.ObjectId.isValid(cakeId)) {
+    return res.status(400).send('Invalid ID format');
+  }
+
   try {
-    const cake = await Cake.findById(req.params.id);
-
-    if (!cake) {
-      return res.status(404).json({ message: "Cake not found." });
+    const deletedCake = await Cake.findByIdAndDelete(cakeId);
+    if (!deletedCake) {
+      return res.status(404).send('Cake not found');
     }
-
-    await cake.remove();
-    res.status(200).json({ message: "Cake successfully deleted." });
+    res.status(200).send(deletedCake);
   } catch (error) {
-    console.error("Error deleting cake:", error.message);
-    res.status(500).json({ message: "Server error. Could not delete cake." });
+    console.error('Error deleting cake:', error);
+    res.status(500).send('Server error');
   }
 };
+
+module.exports = {
+  getCakes,
+  getCakeById,
+  addCake,
+  updateCake,
+  deleteCake
+}
