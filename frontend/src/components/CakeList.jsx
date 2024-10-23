@@ -74,7 +74,9 @@ function CakeList() {
 
   const handleAddCake = async (newCake) => {
     try {
-      const isDuplicate = cakes.some(cake => cake.name.toLowerCase() === newCake.name.toLowerCase());
+      const isDuplicate = cakes.some(cake => 
+        cake.name.toLowerCase() === newCake.name.toLowerCase()
+      );
       if (isDuplicate) {
         setError('A cake with this name already exists.');
         return;
@@ -106,8 +108,15 @@ function CakeList() {
           </Box>
         ))}
       </Box>
-      <CakeDetailsPopup cake={selectedCake} onClose={() => setSelectedCake(null)} />
-      <AddCakePopup open={isAddPopupOpen} onClose={handleAddPopupClose} onAddCake={handleAddCake}/>
+      <CakeDetailsPopup 
+        cake={selectedCake}
+        onClose={() => setSelectedCake(null)} 
+      />
+      <AddCakePopup 
+        open={isAddPopupOpen}
+        onClose={handleAddPopupClose}
+        onAddCake={handleAddCake}
+      />
       <Button
         variant="contained"
         color="primary"
