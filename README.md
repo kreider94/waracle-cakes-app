@@ -27,14 +27,15 @@ npm start
 ```
 
 ## API Endpoints
-`GET /api/cakes`: Retrieve all cakes
-`POST /api/cakes`: Add a new cake
-`DELETE /api/cakes/:id`: Delete a cake by ID
+- `GET /api/cakes`: Retrieve all cakes
+- `POST /api/cakes`: Add a new cake
+- `DELETE /api/cakes/:id`: Delete a cake by ID
+
 
 ## Environment Variables
 Create a .env file in the backend directory with the following variables:
 
 ```
 MONGODB_URI=<mongodb-uri>
-PORT=<your-port>
+PORT=<backend-port>
 ```
