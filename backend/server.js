@@ -11,7 +11,13 @@ const app = express();
 app.use(express.json());
 
 const cors = require('cors');
-app.use(cors({ origin: 'https://waracle-cakes-app-frontend-lgbg.vercel.app/' }));
+app.use(cors({ origin: '' }));
+
+app.use(cors({
+  origin: ['https://waracle-cakes-app-frontend-lgbg.vercel.app/', 'http://localhost:3000'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true
+}));
 
 connectDB();
 
