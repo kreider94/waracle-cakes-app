@@ -1,6 +1,6 @@
 const express = require('express');
 const dotenv = require('dotenv');
-const cors = require('cors'); 
+const cors = require('cors');
 const cakeRoutes = require('./routes/cakeRoutes');
 const connectDB = require('./utils/db');
 
@@ -10,7 +10,8 @@ const app = express();
 
 app.use(express.json());
 
-app.use(cors({ origin: 'http://localhost:3000' }));
+const cors = require('cors');
+app.use(cors({ origin: 'https://waracle-cakes-app-frontend-lgbg.vercel.app/' }));
 
 connectDB();
 
